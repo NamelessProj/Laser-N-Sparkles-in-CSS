@@ -1,0 +1,1315 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  line-height: 1.6;
+}
+
+header {
+  display: grid;
+  place-items: center;
+  padding-block: 2rem;
+}
+header h1 {
+  text-transform: uppercase;
+  position: relative;
+}
+header h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.5px;
+  background: #eee;
+  border-radius: 100vh;
+}
+
+section {
+  padding-block: 1rem;
+  width: min(95%, 1300px);
+  margin-inline: auto;
+}
+
+.input-container {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  display: flex;
+  align-items: center;
+}
+.input-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.input-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  aspect-ratio: 1;
+  background: #eee;
+  border-radius: 0.2rem;
+}
+.input-container:is(:hover, :focus-within) input ~ .checkmark {
+  background: #999;
+}
+.input-container input:checked ~ .checkmark {
+  background: #007a00;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: min(95%, 1300px);
+  margin-inline: auto;
+  padding-bottom: 2rem;
+}
+main .section-1 h2 {
+  margin-bottom: 0.5rem;
+}
+main .section-1 p {
+  text-align: justify;
+}
+main .section-1 p:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+
+/* MY SCENE */
+.scene-wrap {
+  background: #000;
+  perspective: 800px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.scene-wrap *:not(:empty) {
+  transform-style: preserve-3d;
+}
+
+.scene {
+  position: relative;
+  transform: rotateX(-30deg) rotateY(30deg);
+  animation: scene 10s infinite ease-in-out;
+}
+.scene.cameraMove {
+  animation: scene2 20s infinite ease-in-out;
+}
+@keyframes scene {
+  0%, 100% {
+    transform: rotateX(-30deg) rotateY(30deg);
+  }
+  50% {
+    transform: rotateX(-30deg) rotateY(30deg);
+  }
+}
+@keyframes scene2 {
+  0%, 100% {
+    transform: rotateX(-30deg) rotateY(30deg);
+  }
+  50% {
+    transform: rotateX(-30deg) rotateY(-30deg);
+  }
+}
+
+.laser {
+  position: absolute;
+  inset: -100vh -1px;
+  background: coral;
+  box-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px red, 0 0 20px red, 0 0 40px red;
+  transform-origin: top;
+  animation: laser 10s infinite linear, laserScale 10s infinite step-end;
+}
+@keyframes laser {
+  0% {
+    opacity: 0;
+    translate: 0 0 -120px;
+  }
+  10% {
+    opacity: 1;
+    translate: 0 0 -120px;
+  }
+  70% {
+    opacity: 1;
+    translate: 0 0 120px;
+  }
+  80%, 100% {
+    opacity: 0;
+    translate: 0 0 120px;
+  }
+}
+@keyframes laserScale {
+  0%, 60% {
+    scale: 1;
+  }
+  25%, 55% {
+    scale: 0.5;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.panel {
+  position: absolute;
+  width: 200vh;
+  height: 120px;
+  background: #fff;
+  top: -60px;
+  left: -120px;
+  rotate: x 90deg;
+  animation: panel 10s infinite ease-in-out;
+}
+@keyframes panel {
+  0%, 55%, 100% {
+    translate: 120px;
+  }
+  10% {
+    translate: 0;
+    animation-timing-function: step-end;
+  }
+}
+
+.sparks {
+  position: absolute;
+}
+.sparks i {
+  position: absolute;
+  inset: -16px;
+  background: hsl(var(--_hue), 100%, 50%);
+  transform: translateZ(var(--_tz));
+  animation: spark 10s var(--_delay) infinite ease-out backwards;
+}
+@keyframes spark {
+  0%, 25% {
+    opacity: 1;
+    transform: translate3d(0, 0, var(--_tz)) rotateX(var(--_rx)) rotateY(var(--_ry)) scale(0);
+  }
+  30%, 100% {
+    opacity: 0;
+    transform: translate3d(var(--_tx), var(--_ty), var(--_tz)) rotateX(var(--_rx)) rotateY(var(--_ry)) scale(1);
+  }
+}
+.sparks i:nth-child(1) {
+  --_tz: -59px;
+  --_delay: 0.025s;
+  --_tx: -29px;
+  --_ty: -168px;
+  --_rx: 37deg;
+  --_ry: -22deg;
+  --_hue: 30;
+}
+.sparks i:nth-child(2) {
+  --_tz: -58px;
+  --_delay: 0.05s;
+  --_tx: -32px;
+  --_ty: -138px;
+  --_rx: -309deg;
+  --_ry: -57deg;
+  --_hue: -5;
+}
+.sparks i:nth-child(3) {
+  --_tz: -57px;
+  --_delay: 0.075s;
+  --_tx: 57px;
+  --_ty: -137px;
+  --_rx: 99deg;
+  --_ry: -60deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(4) {
+  --_tz: -56px;
+  --_delay: 0.1s;
+  --_tx: -45px;
+  --_ty: -170px;
+  --_rx: -104deg;
+  --_ry: 34deg;
+  --_hue: 23;
+}
+.sparks i:nth-child(5) {
+  --_tz: -55px;
+  --_delay: 0.125s;
+  --_tx: 1px;
+  --_ty: -149px;
+  --_rx: 189deg;
+  --_ry: -92deg;
+  --_hue: 9;
+}
+.sparks i:nth-child(6) {
+  --_tz: -54px;
+  --_delay: 0.15s;
+  --_tx: 57px;
+  --_ty: -151px;
+  --_rx: -329deg;
+  --_ry: 286deg;
+  --_hue: -7;
+}
+.sparks i:nth-child(7) {
+  --_tz: -53px;
+  --_delay: 0.175s;
+  --_tx: 28px;
+  --_ty: -122px;
+  --_rx: -352deg;
+  --_ry: 290deg;
+  --_hue: 21;
+}
+.sparks i:nth-child(8) {
+  --_tz: -52px;
+  --_delay: 0.2s;
+  --_tx: -44px;
+  --_ty: -161px;
+  --_rx: -151deg;
+  --_ry: 89deg;
+  --_hue: 24;
+}
+.sparks i:nth-child(9) {
+  --_tz: -51px;
+  --_delay: 0.225s;
+  --_tx: -8px;
+  --_ty: -102px;
+  --_rx: -308deg;
+  --_ry: -65deg;
+  --_hue: 8;
+}
+.sparks i:nth-child(10) {
+  --_tz: -50px;
+  --_delay: 0.25s;
+  --_tx: 13px;
+  --_ty: -85px;
+  --_rx: 145deg;
+  --_ry: -264deg;
+  --_hue: -6;
+}
+.sparks i:nth-child(11) {
+  --_tz: -49px;
+  --_delay: 0.275s;
+  --_tx: -32px;
+  --_ty: -136px;
+  --_rx: -301deg;
+  --_ry: 148deg;
+  --_hue: -5;
+}
+.sparks i:nth-child(12) {
+  --_tz: -48px;
+  --_delay: 0.3s;
+  --_tx: -54px;
+  --_ty: -111px;
+  --_rx: -100deg;
+  --_ry: 54deg;
+  --_hue: 40;
+}
+.sparks i:nth-child(13) {
+  --_tz: -47px;
+  --_delay: 0.325s;
+  --_tx: -48px;
+  --_ty: -131px;
+  --_rx: -218deg;
+  --_ry: 307deg;
+  --_hue: 32;
+}
+.sparks i:nth-child(14) {
+  --_tz: -46px;
+  --_delay: 0.35s;
+  --_tx: -5px;
+  --_ty: -166px;
+  --_rx: -240deg;
+  --_ry: -93deg;
+  --_hue: 26;
+}
+.sparks i:nth-child(15) {
+  --_tz: -45px;
+  --_delay: 0.375s;
+  --_tx: 1px;
+  --_ty: -133px;
+  --_rx: -199deg;
+  --_ry: 105deg;
+  --_hue: -7;
+}
+.sparks i:nth-child(16) {
+  --_tz: -44px;
+  --_delay: 0.4s;
+  --_tx: 53px;
+  --_ty: -160px;
+  --_rx: 286deg;
+  --_ry: -259deg;
+  --_hue: -9;
+}
+.sparks i:nth-child(17) {
+  --_tz: -43px;
+  --_delay: 0.425s;
+  --_tx: 28px;
+  --_ty: -87px;
+  --_rx: -74deg;
+  --_ry: -36deg;
+  --_hue: 9;
+}
+.sparks i:nth-child(18) {
+  --_tz: -42px;
+  --_delay: 0.45s;
+  --_tx: -54px;
+  --_ty: -177px;
+  --_rx: -166deg;
+  --_ry: 126deg;
+  --_hue: 7;
+}
+.sparks i:nth-child(19) {
+  --_tz: -41px;
+  --_delay: 0.475s;
+  --_tx: -43px;
+  --_ty: -164px;
+  --_rx: 58deg;
+  --_ry: 284deg;
+  --_hue: 0;
+}
+.sparks i:nth-child(20) {
+  --_tz: -40px;
+  --_delay: 0.5s;
+  --_tx: 7px;
+  --_ty: -173px;
+  --_rx: -270deg;
+  --_ry: -37deg;
+  --_hue: -1;
+}
+.sparks i:nth-child(21) {
+  --_tz: -39px;
+  --_delay: 0.525s;
+  --_tx: -27px;
+  --_ty: -128px;
+  --_rx: 62deg;
+  --_ry: -241deg;
+  --_hue: -6;
+}
+.sparks i:nth-child(22) {
+  --_tz: -38px;
+  --_delay: 0.55s;
+  --_tx: -26px;
+  --_ty: -77px;
+  --_rx: -83deg;
+  --_ry: 198deg;
+  --_hue: 32;
+}
+.sparks i:nth-child(23) {
+  --_tz: -37px;
+  --_delay: 0.575s;
+  --_tx: -38px;
+  --_ty: -161px;
+  --_rx: 49deg;
+  --_ry: -164deg;
+  --_hue: 21;
+}
+.sparks i:nth-child(24) {
+  --_tz: -36px;
+  --_delay: 0.6s;
+  --_tx: 26px;
+  --_ty: -154px;
+  --_rx: 8deg;
+  --_ry: 211deg;
+  --_hue: 31;
+}
+.sparks i:nth-child(25) {
+  --_tz: -35px;
+  --_delay: 0.625s;
+  --_tx: 58px;
+  --_ty: -115px;
+  --_rx: -348deg;
+  --_ry: -264deg;
+  --_hue: 22;
+}
+.sparks i:nth-child(26) {
+  --_tz: -34px;
+  --_delay: 0.65s;
+  --_tx: -32px;
+  --_ty: -175px;
+  --_rx: 46deg;
+  --_ry: 159deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(27) {
+  --_tz: -33px;
+  --_delay: 0.675s;
+  --_tx: -17px;
+  --_ty: -179px;
+  --_rx: -107deg;
+  --_ry: -74deg;
+  --_hue: 14;
+}
+.sparks i:nth-child(28) {
+  --_tz: -32px;
+  --_delay: 0.7s;
+  --_tx: 9px;
+  --_ty: -114px;
+  --_rx: -344deg;
+  --_ry: -45deg;
+  --_hue: 21;
+}
+.sparks i:nth-child(29) {
+  --_tz: -31px;
+  --_delay: 0.725s;
+  --_tx: -6px;
+  --_ty: -151px;
+  --_rx: 138deg;
+  --_ry: 233deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(30) {
+  --_tz: -30px;
+  --_delay: 0.75s;
+  --_tx: -2px;
+  --_ty: -81px;
+  --_rx: 308deg;
+  --_ry: -246deg;
+  --_hue: 12;
+}
+.sparks i:nth-child(31) {
+  --_tz: -29px;
+  --_delay: 0.775s;
+  --_tx: 31px;
+  --_ty: -156px;
+  --_rx: -8deg;
+  --_ry: 235deg;
+  --_hue: 17;
+}
+.sparks i:nth-child(32) {
+  --_tz: -28px;
+  --_delay: 0.8s;
+  --_tx: 55px;
+  --_ty: -171px;
+  --_rx: -87deg;
+  --_ry: -215deg;
+  --_hue: 16;
+}
+.sparks i:nth-child(33) {
+  --_tz: -27px;
+  --_delay: 0.825s;
+  --_tx: 4px;
+  --_ty: -66px;
+  --_rx: 124deg;
+  --_ry: -17deg;
+  --_hue: -1;
+}
+.sparks i:nth-child(34) {
+  --_tz: -26px;
+  --_delay: 0.85s;
+  --_tx: 45px;
+  --_ty: -76px;
+  --_rx: 40deg;
+  --_ry: 274deg;
+  --_hue: 8;
+}
+.sparks i:nth-child(35) {
+  --_tz: -25px;
+  --_delay: 0.875s;
+  --_tx: 21px;
+  --_ty: -152px;
+  --_rx: -298deg;
+  --_ry: 346deg;
+  --_hue: 13;
+}
+.sparks i:nth-child(36) {
+  --_tz: -24px;
+  --_delay: 0.9s;
+  --_tx: 31px;
+  --_ty: -118px;
+  --_rx: 2deg;
+  --_ry: 27deg;
+  --_hue: -1;
+}
+.sparks i:nth-child(37) {
+  --_tz: -23px;
+  --_delay: 0.925s;
+  --_tx: -33px;
+  --_ty: -143px;
+  --_rx: -143deg;
+  --_ry: -62deg;
+  --_hue: 9;
+}
+.sparks i:nth-child(38) {
+  --_tz: -22px;
+  --_delay: 0.95s;
+  --_tx: -58px;
+  --_ty: -90px;
+  --_rx: 334deg;
+  --_ry: -38deg;
+  --_hue: 4;
+}
+.sparks i:nth-child(39) {
+  --_tz: -21px;
+  --_delay: 0.975s;
+  --_tx: -4px;
+  --_ty: -73px;
+  --_rx: -99deg;
+  --_ry: -92deg;
+  --_hue: 22;
+}
+.sparks i:nth-child(40) {
+  --_tz: -20px;
+  --_delay: 1s;
+  --_tx: -10px;
+  --_ty: -179px;
+  --_rx: -339deg;
+  --_ry: 53deg;
+  --_hue: 33;
+}
+.sparks i:nth-child(41) {
+  --_tz: -19px;
+  --_delay: 1.025s;
+  --_tx: 31px;
+  --_ty: -148px;
+  --_rx: 138deg;
+  --_ry: -42deg;
+  --_hue: 31;
+}
+.sparks i:nth-child(42) {
+  --_tz: -18px;
+  --_delay: 1.05s;
+  --_tx: 24px;
+  --_ty: -152px;
+  --_rx: 126deg;
+  --_ry: -117deg;
+  --_hue: -7;
+}
+.sparks i:nth-child(43) {
+  --_tz: -17px;
+  --_delay: 1.075s;
+  --_tx: 39px;
+  --_ty: -89px;
+  --_rx: -120deg;
+  --_ry: -151deg;
+  --_hue: 40;
+}
+.sparks i:nth-child(44) {
+  --_tz: -16px;
+  --_delay: 1.1s;
+  --_tx: -48px;
+  --_ty: -96px;
+  --_rx: 155deg;
+  --_ry: 32deg;
+  --_hue: 27;
+}
+.sparks i:nth-child(45) {
+  --_tz: -15px;
+  --_delay: 1.125s;
+  --_tx: 12px;
+  --_ty: -168px;
+  --_rx: 62deg;
+  --_ry: 135deg;
+  --_hue: -3;
+}
+.sparks i:nth-child(46) {
+  --_tz: -14px;
+  --_delay: 1.15s;
+  --_tx: -30px;
+  --_ty: -156px;
+  --_rx: -233deg;
+  --_ry: -201deg;
+  --_hue: 18;
+}
+.sparks i:nth-child(47) {
+  --_tz: -13px;
+  --_delay: 1.175s;
+  --_tx: 51px;
+  --_ty: -111px;
+  --_rx: 0deg;
+  --_ry: -38deg;
+  --_hue: -4;
+}
+.sparks i:nth-child(48) {
+  --_tz: -12px;
+  --_delay: 1.2s;
+  --_tx: 28px;
+  --_ty: -161px;
+  --_rx: -350deg;
+  --_ry: -237deg;
+  --_hue: 36;
+}
+.sparks i:nth-child(49) {
+  --_tz: -11px;
+  --_delay: 1.225s;
+  --_tx: -31px;
+  --_ty: -85px;
+  --_rx: 139deg;
+  --_ry: 247deg;
+  --_hue: 7;
+}
+.sparks i:nth-child(50) {
+  --_tz: -10px;
+  --_delay: 1.25s;
+  --_tx: 56px;
+  --_ty: -88px;
+  --_rx: 74deg;
+  --_ry: -299deg;
+  --_hue: 7;
+}
+.sparks i:nth-child(51) {
+  --_tz: -9px;
+  --_delay: 1.275s;
+  --_tx: 59px;
+  --_ty: -137px;
+  --_rx: -343deg;
+  --_ry: 3deg;
+  --_hue: -5;
+}
+.sparks i:nth-child(52) {
+  --_tz: -8px;
+  --_delay: 1.3s;
+  --_tx: 4px;
+  --_ty: -110px;
+  --_rx: -89deg;
+  --_ry: 327deg;
+  --_hue: 33;
+}
+.sparks i:nth-child(53) {
+  --_tz: -7px;
+  --_delay: 1.325s;
+  --_tx: 16px;
+  --_ty: -154px;
+  --_rx: 292deg;
+  --_ry: 215deg;
+  --_hue: 9;
+}
+.sparks i:nth-child(54) {
+  --_tz: -6px;
+  --_delay: 1.35s;
+  --_tx: 6px;
+  --_ty: -136px;
+  --_rx: 69deg;
+  --_ry: -154deg;
+  --_hue: 38;
+}
+.sparks i:nth-child(55) {
+  --_tz: -5px;
+  --_delay: 1.375s;
+  --_tx: 48px;
+  --_ty: -178px;
+  --_rx: -114deg;
+  --_ry: 261deg;
+  --_hue: 0;
+}
+.sparks i:nth-child(56) {
+  --_tz: -4px;
+  --_delay: 1.4s;
+  --_tx: 2px;
+  --_ty: -145px;
+  --_rx: 104deg;
+  --_ry: 173deg;
+  --_hue: 24;
+}
+.sparks i:nth-child(57) {
+  --_tz: -3px;
+  --_delay: 1.425s;
+  --_tx: -20px;
+  --_ty: -67px;
+  --_rx: 68deg;
+  --_ry: -14deg;
+  --_hue: -9;
+}
+.sparks i:nth-child(58) {
+  --_tz: -2px;
+  --_delay: 1.45s;
+  --_tx: -12px;
+  --_ty: -72px;
+  --_rx: -268deg;
+  --_ry: 276deg;
+  --_hue: -6;
+}
+.sparks i:nth-child(59) {
+  --_tz: -1px;
+  --_delay: 1.475s;
+  --_tx: 36px;
+  --_ty: -74px;
+  --_rx: 286deg;
+  --_ry: 41deg;
+  --_hue: 0;
+}
+.sparks i:nth-child(60) {
+  --_tz: 0px;
+  --_delay: 1.5s;
+  --_tx: -14px;
+  --_ty: -140px;
+  --_rx: -230deg;
+  --_ry: 357deg;
+  --_hue: 27;
+}
+.sparks i:nth-child(61) {
+  --_tz: 1px;
+  --_delay: 1.525s;
+  --_tx: -57px;
+  --_ty: -102px;
+  --_rx: -90deg;
+  --_ry: -260deg;
+  --_hue: 15;
+}
+.sparks i:nth-child(62) {
+  --_tz: 2px;
+  --_delay: 1.55s;
+  --_tx: -24px;
+  --_ty: -82px;
+  --_rx: -92deg;
+  --_ry: -266deg;
+  --_hue: 27;
+}
+.sparks i:nth-child(63) {
+  --_tz: 3px;
+  --_delay: 1.575s;
+  --_tx: 57px;
+  --_ty: -71px;
+  --_rx: -275deg;
+  --_ry: -239deg;
+  --_hue: 28;
+}
+.sparks i:nth-child(64) {
+  --_tz: 4px;
+  --_delay: 1.6s;
+  --_tx: -2px;
+  --_ty: -112px;
+  --_rx: -320deg;
+  --_ry: 180deg;
+  --_hue: 6;
+}
+.sparks i:nth-child(65) {
+  --_tz: 5px;
+  --_delay: 1.625s;
+  --_tx: -29px;
+  --_ty: -72px;
+  --_rx: -192deg;
+  --_ry: -98deg;
+  --_hue: 5;
+}
+.sparks i:nth-child(66) {
+  --_tz: 6px;
+  --_delay: 1.65s;
+  --_tx: 37px;
+  --_ty: -123px;
+  --_rx: 237deg;
+  --_ry: -154deg;
+  --_hue: 32;
+}
+.sparks i:nth-child(67) {
+  --_tz: 7px;
+  --_delay: 1.675s;
+  --_tx: 40px;
+  --_ty: -177px;
+  --_rx: 352deg;
+  --_ry: -264deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(68) {
+  --_tz: 8px;
+  --_delay: 1.7s;
+  --_tx: -11px;
+  --_ty: -81px;
+  --_rx: 135deg;
+  --_ry: -353deg;
+  --_hue: 31;
+}
+.sparks i:nth-child(69) {
+  --_tz: 9px;
+  --_delay: 1.725s;
+  --_tx: -29px;
+  --_ty: -147px;
+  --_rx: -356deg;
+  --_ry: 186deg;
+  --_hue: 10;
+}
+.sparks i:nth-child(70) {
+  --_tz: 10px;
+  --_delay: 1.75s;
+  --_tx: 34px;
+  --_ty: -130px;
+  --_rx: -66deg;
+  --_ry: -8deg;
+  --_hue: -4;
+}
+.sparks i:nth-child(71) {
+  --_tz: 11px;
+  --_delay: 1.775s;
+  --_tx: -40px;
+  --_ty: -71px;
+  --_rx: 172deg;
+  --_ry: 41deg;
+  --_hue: 11;
+}
+.sparks i:nth-child(72) {
+  --_tz: 12px;
+  --_delay: 1.8s;
+  --_tx: 53px;
+  --_ty: -113px;
+  --_rx: -46deg;
+  --_ry: -121deg;
+  --_hue: 6;
+}
+.sparks i:nth-child(73) {
+  --_tz: 13px;
+  --_delay: 1.825s;
+  --_tx: -48px;
+  --_ty: -97px;
+  --_rx: -158deg;
+  --_ry: 268deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(74) {
+  --_tz: 14px;
+  --_delay: 1.85s;
+  --_tx: -5px;
+  --_ty: -145px;
+  --_rx: 230deg;
+  --_ry: -6deg;
+  --_hue: 1;
+}
+.sparks i:nth-child(75) {
+  --_tz: 15px;
+  --_delay: 1.875s;
+  --_tx: -40px;
+  --_ty: -154px;
+  --_rx: -297deg;
+  --_ry: 96deg;
+  --_hue: -8;
+}
+.sparks i:nth-child(76) {
+  --_tz: 16px;
+  --_delay: 1.9s;
+  --_tx: 58px;
+  --_ty: -135px;
+  --_rx: 253deg;
+  --_ry: -321deg;
+  --_hue: 8;
+}
+.sparks i:nth-child(77) {
+  --_tz: 17px;
+  --_delay: 1.925s;
+  --_tx: -3px;
+  --_ty: -106px;
+  --_rx: 184deg;
+  --_ry: 140deg;
+  --_hue: 2;
+}
+.sparks i:nth-child(78) {
+  --_tz: 18px;
+  --_delay: 1.95s;
+  --_tx: -52px;
+  --_ty: -132px;
+  --_rx: 160deg;
+  --_ry: -95deg;
+  --_hue: 30;
+}
+.sparks i:nth-child(79) {
+  --_tz: 19px;
+  --_delay: 1.975s;
+  --_tx: 43px;
+  --_ty: -154px;
+  --_rx: -319deg;
+  --_ry: 302deg;
+  --_hue: 6;
+}
+.sparks i:nth-child(80) {
+  --_tz: 20px;
+  --_delay: 2s;
+  --_tx: -7px;
+  --_ty: -61px;
+  --_rx: 76deg;
+  --_ry: 221deg;
+  --_hue: 18;
+}
+.sparks i:nth-child(81) {
+  --_tz: 21px;
+  --_delay: 2.025s;
+  --_tx: -22px;
+  --_ty: -179px;
+  --_rx: -350deg;
+  --_ry: 277deg;
+  --_hue: 20;
+}
+.sparks i:nth-child(82) {
+  --_tz: 22px;
+  --_delay: 2.05s;
+  --_tx: -5px;
+  --_ty: -158px;
+  --_rx: -154deg;
+  --_ry: 239deg;
+  --_hue: 34;
+}
+.sparks i:nth-child(83) {
+  --_tz: 23px;
+  --_delay: 2.075s;
+  --_tx: -29px;
+  --_ty: -143px;
+  --_rx: 184deg;
+  --_ry: 269deg;
+  --_hue: 31;
+}
+.sparks i:nth-child(84) {
+  --_tz: 24px;
+  --_delay: 2.1s;
+  --_tx: 26px;
+  --_ty: -167px;
+  --_rx: 212deg;
+  --_ry: -27deg;
+  --_hue: 15;
+}
+.sparks i:nth-child(85) {
+  --_tz: 25px;
+  --_delay: 2.125s;
+  --_tx: 2px;
+  --_ty: -126px;
+  --_rx: 50deg;
+  --_ry: 147deg;
+  --_hue: 39;
+}
+.sparks i:nth-child(86) {
+  --_tz: 26px;
+  --_delay: 2.15s;
+  --_tx: 55px;
+  --_ty: -165px;
+  --_rx: -214deg;
+  --_ry: 43deg;
+  --_hue: 30;
+}
+.sparks i:nth-child(87) {
+  --_tz: 27px;
+  --_delay: 2.175s;
+  --_tx: -41px;
+  --_ty: -112px;
+  --_rx: 188deg;
+  --_ry: -327deg;
+  --_hue: -5;
+}
+.sparks i:nth-child(88) {
+  --_tz: 28px;
+  --_delay: 2.2s;
+  --_tx: 56px;
+  --_ty: -142px;
+  --_rx: 16deg;
+  --_ry: 199deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(89) {
+  --_tz: 29px;
+  --_delay: 2.225s;
+  --_tx: -26px;
+  --_ty: -127px;
+  --_rx: 355deg;
+  --_ry: 130deg;
+  --_hue: 37;
+}
+.sparks i:nth-child(90) {
+  --_tz: 30px;
+  --_delay: 2.25s;
+  --_tx: 3px;
+  --_ty: -97px;
+  --_rx: 141deg;
+  --_ry: -254deg;
+  --_hue: 26;
+}
+.sparks i:nth-child(91) {
+  --_tz: 31px;
+  --_delay: 2.275s;
+  --_tx: -34px;
+  --_ty: -68px;
+  --_rx: -160deg;
+  --_ry: 59deg;
+  --_hue: -6;
+}
+.sparks i:nth-child(92) {
+  --_tz: 32px;
+  --_delay: 2.3s;
+  --_tx: -55px;
+  --_ty: -140px;
+  --_rx: -56deg;
+  --_ry: 245deg;
+  --_hue: 40;
+}
+.sparks i:nth-child(93) {
+  --_tz: 33px;
+  --_delay: 2.325s;
+  --_tx: -28px;
+  --_ty: -97px;
+  --_rx: 319deg;
+  --_ry: -234deg;
+  --_hue: 5;
+}
+.sparks i:nth-child(94) {
+  --_tz: 34px;
+  --_delay: 2.35s;
+  --_tx: -12px;
+  --_ty: -136px;
+  --_rx: 241deg;
+  --_ry: 33deg;
+  --_hue: 16;
+}
+.sparks i:nth-child(95) {
+  --_tz: 35px;
+  --_delay: 2.375s;
+  --_tx: 45px;
+  --_ty: -157px;
+  --_rx: -2deg;
+  --_ry: 180deg;
+  --_hue: -6;
+}
+.sparks i:nth-child(96) {
+  --_tz: 36px;
+  --_delay: 2.4s;
+  --_tx: -28px;
+  --_ty: -80px;
+  --_rx: 62deg;
+  --_ry: -299deg;
+  --_hue: 32;
+}
+.sparks i:nth-child(97) {
+  --_tz: 37px;
+  --_delay: 2.425s;
+  --_tx: 23px;
+  --_ty: -61px;
+  --_rx: -284deg;
+  --_ry: 176deg;
+  --_hue: 29;
+}
+.sparks i:nth-child(98) {
+  --_tz: 38px;
+  --_delay: 2.45s;
+  --_tx: 48px;
+  --_ty: -120px;
+  --_rx: -75deg;
+  --_ry: -186deg;
+  --_hue: 3;
+}
+.sparks i:nth-child(99) {
+  --_tz: 39px;
+  --_delay: 2.475s;
+  --_tx: -3px;
+  --_ty: -105px;
+  --_rx: -354deg;
+  --_ry: 167deg;
+  --_hue: 4;
+}
+.sparks i:nth-child(100) {
+  --_tz: 40px;
+  --_delay: 2.5s;
+  --_tx: -22px;
+  --_ty: -171px;
+  --_rx: 202deg;
+  --_ry: 303deg;
+  --_hue: 37;
+}
+.sparks i:nth-child(101) {
+  --_tz: 41px;
+  --_delay: 2.525s;
+  --_tx: -37px;
+  --_ty: -138px;
+  --_rx: 13deg;
+  --_ry: 11deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(102) {
+  --_tz: 42px;
+  --_delay: 2.55s;
+  --_tx: 39px;
+  --_ty: -76px;
+  --_rx: 335deg;
+  --_ry: -265deg;
+  --_hue: 34;
+}
+.sparks i:nth-child(103) {
+  --_tz: 43px;
+  --_delay: 2.575s;
+  --_tx: -7px;
+  --_ty: -156px;
+  --_rx: -111deg;
+  --_ry: -164deg;
+  --_hue: -2;
+}
+.sparks i:nth-child(104) {
+  --_tz: 44px;
+  --_delay: 2.6s;
+  --_tx: 54px;
+  --_ty: -96px;
+  --_rx: -141deg;
+  --_ry: -47deg;
+  --_hue: 6;
+}
+.sparks i:nth-child(105) {
+  --_tz: 45px;
+  --_delay: 2.625s;
+  --_tx: -36px;
+  --_ty: -74px;
+  --_rx: -46deg;
+  --_ry: -94deg;
+  --_hue: 36;
+}
+.sparks i:nth-child(106) {
+  --_tz: 46px;
+  --_delay: 2.65s;
+  --_tx: 55px;
+  --_ty: -164px;
+  --_rx: -139deg;
+  --_ry: -63deg;
+  --_hue: 30;
+}
+.sparks i:nth-child(107) {
+  --_tz: 47px;
+  --_delay: 2.675s;
+  --_tx: -47px;
+  --_ty: -148px;
+  --_rx: 9deg;
+  --_ry: -191deg;
+  --_hue: 25;
+}
+.sparks i:nth-child(108) {
+  --_tz: 48px;
+  --_delay: 2.7s;
+  --_tx: 54px;
+  --_ty: -61px;
+  --_rx: -325deg;
+  --_ry: 61deg;
+  --_hue: 11;
+}
+.sparks i:nth-child(109) {
+  --_tz: 49px;
+  --_delay: 2.725s;
+  --_tx: 12px;
+  --_ty: -133px;
+  --_rx: 70deg;
+  --_ry: -28deg;
+  --_hue: 5;
+}
+.sparks i:nth-child(110) {
+  --_tz: 50px;
+  --_delay: 2.75s;
+  --_tx: 11px;
+  --_ty: -121px;
+  --_rx: 127deg;
+  --_ry: -113deg;
+  --_hue: 23;
+}
+.sparks i:nth-child(111) {
+  --_tz: 51px;
+  --_delay: 2.775s;
+  --_tx: 31px;
+  --_ty: -103px;
+  --_rx: 192deg;
+  --_ry: -86deg;
+  --_hue: 20;
+}
+.sparks i:nth-child(112) {
+  --_tz: 52px;
+  --_delay: 2.8s;
+  --_tx: 21px;
+  --_ty: -167px;
+  --_rx: -267deg;
+  --_ry: 323deg;
+  --_hue: 21;
+}
+.sparks i:nth-child(113) {
+  --_tz: 53px;
+  --_delay: 2.825s;
+  --_tx: 47px;
+  --_ty: -94px;
+  --_rx: -115deg;
+  --_ry: 195deg;
+  --_hue: 25;
+}
+.sparks i:nth-child(114) {
+  --_tz: 54px;
+  --_delay: 2.85s;
+  --_tx: -33px;
+  --_ty: -132px;
+  --_rx: 37deg;
+  --_ry: -166deg;
+  --_hue: 28;
+}
+.sparks i:nth-child(115) {
+  --_tz: 55px;
+  --_delay: 2.875s;
+  --_tx: -51px;
+  --_ty: -85px;
+  --_rx: -347deg;
+  --_ry: 146deg;
+  --_hue: 37;
+}
+.sparks i:nth-child(116) {
+  --_tz: 56px;
+  --_delay: 2.9s;
+  --_tx: -11px;
+  --_ty: -94px;
+  --_rx: -113deg;
+  --_ry: 166deg;
+  --_hue: 34;
+}
+.sparks i:nth-child(117) {
+  --_tz: 57px;
+  --_delay: 2.925s;
+  --_tx: 38px;
+  --_ty: -137px;
+  --_rx: 311deg;
+  --_ry: 78deg;
+  --_hue: 40;
+}
+.sparks i:nth-child(118) {
+  --_tz: 58px;
+  --_delay: 2.95s;
+  --_tx: 30px;
+  --_ty: -171px;
+  --_rx: 337deg;
+  --_ry: -222deg;
+  --_hue: 31;
+}
+.sparks i:nth-child(119) {
+  --_tz: 59px;
+  --_delay: 2.975s;
+  --_tx: -38px;
+  --_ty: -172px;
+  --_rx: 2deg;
+  --_ry: 340deg;
+  --_hue: 32;
+}
+.sparks i:nth-child(120) {
+  --_tz: 60px;
+  --_delay: 3s;
+  --_tx: -13px;
+  --_ty: -127px;
+  --_rx: -196deg;
+  --_ry: 338deg;
+  --_hue: -9;
+}
+
+.drop {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  top: -60px;
+  left: -120px;
+  rotate: x 90deg;
+  animation: drop 10s infinite step-end;
+}
+@keyframes drop {
+  0%, 70% {
+    translate: 0 100vh;
+  }
+  55% {
+    translate: 0 0;
+    animation-timing-function: ease-in;
+  }
+}
+
+/* SOME BASIC MEDIA QUERY */
+@media (width < 801px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 400px;
+  }
+}/*# sourceMappingURL=style.css.map */

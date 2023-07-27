@@ -1,0 +1,289 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    color-scheme: dark;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    line-height: 1.6;
+}
+
+header{
+    display: grid;
+    place-items: center;
+    padding-block: 2rem;
+
+    h1{
+        text-transform: uppercase;
+        position: relative;
+
+        &::after{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2.5px;
+            background: #eee;
+            border-radius: 100vh;
+        }
+    }
+}
+
+section{
+    padding-block: 1rem;
+    width: min(95%, 1300px);
+    margin-inline: auto;
+}
+
+.input-container{
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+
+    input{
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        aspect-ratio: 1;
+        background: #eee;
+        border-radius: .2rem;
+    }
+
+    &:is(:hover, :focus-within) input ~ .checkmark{ background: #999; }
+    input:checked ~ .checkmark{ background: #007a00; }
+}
+
+main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: min(95%, 1300px);
+    margin-inline: auto;
+    padding-bottom: 2rem;
+
+    .section-1{
+        h2{
+            margin-bottom: .5rem;
+        }
+        p{
+            text-align: justify;
+
+            &:not(:last-child){
+                margin-bottom: .75rem;
+            }
+        }
+    }
+}
+
+
+
+/* MY SCENE */
+
+$duration: 10s;
+
+.scene-wrap{
+    background: #000;
+    perspective: 800px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+
+    *:not(:empty){
+        transform-style: preserve-3d;
+    }
+}
+
+.scene{
+    position: relative;
+    transform:
+        rotateX(-30deg)
+        rotateY(30deg);
+    animation: scene $duration infinite ease-in-out;
+
+    &.cameraMove{ animation: scene2 #{$duration * 2} infinite ease-in-out; }
+
+    @keyframes scene {
+        0%, 100%{
+            transform:
+            rotateX(-30deg)
+            rotateY(30deg);
+        }
+        50%{
+            transform:
+            rotateX(-30deg)
+            rotateY(30deg);
+        }
+    }
+
+    @keyframes scene2 {
+        0%, 100%{
+            transform:
+            rotateX(-30deg)
+            rotateY(30deg);
+        }
+        50%{
+            transform:
+            rotateX(-30deg)
+            rotateY(-30deg);
+        }
+    }
+}
+
+.laser{
+    position: absolute;
+    inset: -100vh -1px;
+    background: coral;
+    box-shadow:
+        0 0 5px red,
+        0 0 10px red,
+        0 0 15px red,
+        0 0 20px red,
+        0 0 40px red;
+    transform-origin: top;
+    animation: 
+        laser $duration infinite linear,
+        laserScale $duration infinite step-end;
+
+
+    @keyframes laser {
+        0% {
+            opacity: 0;
+            translate: 0 0 -120px;
+        }
+
+        10% {
+            opacity: 1;
+            translate: 0 0 -120px;
+        }
+
+        70% {
+            opacity: 1;
+            translate: 0 0 120px;
+        }
+
+        80%, 100% {
+            opacity: 0;
+            translate: 0 0 120px;
+        }
+    }
+
+    @keyframes laserScale {
+        0%, 60% { scale: 1; }
+        25%, 55% {
+            scale: .5;
+            animation-timing-function: ease-in-out;
+        }
+    }
+}
+
+.panel{
+    position: absolute;
+    width: 200vh;
+    height: 120px;
+    background: #fff;
+    top: -60px;
+    left: -120px;
+    rotate: x 90deg;
+    animation: panel $duration infinite ease-in-out;
+
+    @keyframes panel {
+        0%, 55%, 100% { translate: 120px; }
+        10% {
+            translate: 0;
+            animation-timing-function: step-end;
+        }
+    }
+}
+
+.sparks{
+    position: absolute;
+
+    i{
+        position: absolute;
+        inset: -16px;
+        background: hsl(var(--_hue) 100% 50%);
+        transform: translateZ(var(--_tz));
+        animation: spark $duration var(--_delay) infinite ease-out backwards;
+
+        @keyframes spark {
+            0%, 25% {
+                opacity: 1;
+                transform:
+                    translate3d(0, 0, var(--_tz))
+                    rotateX(var(--_rx))
+                    rotateY(var(--_ry))
+                    scale(0);
+            }
+            30%, 100% {
+                opacity: 0;
+                transform:
+                    translate3d(var(--_tx), var(--_ty), var(--_tz))
+                    rotateX(var(--_rx))
+                    rotateY(var(--_ry))
+                    scale(1);
+            }
+        }
+
+        @for $i from 1 through 120 {
+            &:nth-child(#{$i}){
+                --_tz: #{$i - 60}px;
+                --_delay: #{$duration * 0.3 / 120 * $i};
+                --_tx: #{random(120) - 60}px;
+                --_ty: #{random(120) - 180}px;
+                --_rx: #{random(720) - 360}deg;
+                --_ry: #{random(720) - 360}deg;
+                --_hue: #{random(50) - 10};
+            }
+        }
+    }
+}
+
+.drop{
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    top: -60px;
+    left: -120px;
+    rotate: x 90deg;
+    animation: drop $duration infinite step-end;
+
+    @keyframes drop {
+        0%, 70%{ translate: 0 100vh; }
+        55% {
+            translate: 0 0;
+            animation-timing-function: ease-in;
+        }
+    }
+}
+
+
+
+/* SOME BASIC MEDIA QUERY */
+
+@media (width < 801px) {
+    main{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 400px;
+    }
+}
