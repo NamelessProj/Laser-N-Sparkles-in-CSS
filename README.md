@@ -1,4 +1,4 @@
-# Laser & Sparkles in CSS
+# Laser &amp; Sparkles in CSS
 
 [Live preview]()
 
